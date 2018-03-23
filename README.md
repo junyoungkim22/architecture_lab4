@@ -16,3 +16,8 @@ Microcontroller output
 11 RF[ IR[ 15:11 ] ] &leftarrow; ALUOut,  
 12 RF[ IR[ 20:16 ] ] &leftarrow; ALUOut  
 13 RF[ IR[ 20:16 ] ] &leftarrow; MDR  
+14 outputport &leftarrow; ALUOut
+
+CompletedSignal  
+0 Set B = 0  
+1  
