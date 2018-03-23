@@ -20,4 +20,4 @@ Microcontroller output
 
 CompletedSignal  
 0 Set B = 0  
-1  
+4:1 ALU Function code
