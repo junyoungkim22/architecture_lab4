@@ -1,4 +1,4 @@
-`timescale 1ns/1ns
+//`timescale 1ns/1ns
 `define WORD_SIZE 16    // data and address word size
 
 

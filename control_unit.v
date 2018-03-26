@@ -1,3 +1,4 @@
+
 `include "opcodes.v" 	   
 
 module control_unit (state, signal);
@@ -26,24 +27,50 @@ module control_unit (state, signal);
 	parameter state_MEM4 = 5'd17;
 	parameter state_WB = 5'd18;
 
-
-	reg PCSource = signal[14:13];
-	reg ALUOp = signal[12];
-	reg ALUSrcB = signal[11:10];
-	reg ALUSrcA = signal[9];
-	reg RegWrite = signal[8];
-	reg RegDst = signal[7];
-	reg PCWriteCond = signal[6];
-	reg PCWrite = signal[5];
-	reg IorD = signal[4];
-	reg MemRead = signal[3];
-	reg MemWrite = signal[2];
-	reg MemtoReg = signal[1];
-	reg IRWrite = signal[0];
+	reg [1:0] PCSource;
+	reg ALUOp;
+	reg ALUSrcA;
+	reg [1:0] ALUSrcB;
+	reg RegWrite;
+	reg RegDst;
+	reg PCWriteCond;
+	reg PCWrite;
+	reg IorD;
+	reg MemRead;
+	reg MemWrite;
+	reg MemtoReg;
+	reg IRWrite;
+	
+	assign signal[14:13] = PCSource[1:0];
+	assign signal[12] = ALUOp;
+	assign signal[11:10] = ALUSrcB[1:0];
+	assign signal[9] = ALUSrcA;
+	assign signal[8] = RegWrite;
+	assign signal[7] = RegDst;
+	assign signal[6] = PCWriteCond;
+	assign signal[5] = PCWrite;
+	assign signal[4] = IorD;
+	assign signal[3] = MemRead;
+	assign signal[2] = MemWrite;
+	assign signal[1] = MemtoReg;
+	assign signal[0] = IRWrite;
 
 	initial
 	begin
-		signal = 5'd0;
+		PCSource = 2'b0;
+		ALUOp = 1'b0;
+		ALUSrcB= 2'b0;
+		ALUSrcA = 1'b0;
+		RegWrite = 1'b0;
+		RegDst = 1'b0;
+		
+		PCWriteCond = 1'b0;
+		PCWrite = 1'b0;
+		IorD = 1'b0;
+		MemRead = 1'b0;
+		MemWrite = 1'b0;
+		MemtoReg = 1'b0;
+		IRWrite = 1'b0;
 	end
 
 	always @ (*) begin
@@ -356,5 +383,5 @@ module control_unit (state, signal);
 			end
 		endcase
 	end
-	
-endmodule					
+
+endmodule

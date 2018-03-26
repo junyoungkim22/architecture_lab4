@@ -1,9 +1,9 @@
  
 // Opcode
 `define	ALU_OP	4'd15
-`define	ADI_OP		4'd4
+`define	ADI_OP	4'd4
 `define	ORI_OP	4'd5
-`define	LHI_OP		4'd6
+`define	LHI_OP	4'd6
 `define	LWD_OP	4'd7   		  
 `define	SWD_OP	4'd8  
 `define	BNE_OP	4'd0
@@ -19,8 +19,6 @@
 `define FUNC_TCP 6'd5
 `define FUNC_SHL 6'd6
 `define FUNC_SHR 6'd7	 
-
-`define FUNC_WWD 6`d28
 
 `define	WORD_SIZE	16			
 `define	NUM_REGS	4
