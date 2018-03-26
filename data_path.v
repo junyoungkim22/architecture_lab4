@@ -115,14 +115,14 @@ module data_path (
 	//branch logic
 	wire bcond = (instruction[15:12] == `BNE_OP) ? equal : !equal; 
 
-	wire calcPC = (PCSource <= 1) ? ((PCSource) ? ALUOut + 1 : ALUOut) : jumpTarget;
-	wire updatePC = (bcond & PCWriteCond) || PCWrite;
+	wire [`WORD_SIZE-1:0] calcPC = (PCSource <= 1) ? ((PCSource) ? ALUOut + 1 : ALUOut) : jumpTarget;
+	wire [`WORD_SIZE-1:0] updatePC = (bcond & PCWriteCond) || PCWrite;
 
 	assign nextPC = updatePC ? calcPC : PC;
 
 
 	assign readM1 = MemRead;
-	assign address1 = IorD ? PC : calc_address;
+	assign address1 = (!IorD) ? PC : calc_address;
 	assign writeM2 = MemWrite ? 1 : 0;
 	assign address2 = calc_address;
 	assign data2 = MemWrite ? readData2 : `WORD_SIZE'bz;
@@ -131,6 +131,7 @@ module data_path (
 	register_file regFile (r1, r2, rd, writeData, RegWrite, readData1, readData2, clk, reset_n);
 	ALU alu(A, B, OP, ALUOut, equal);
 
+/*
 	always @ (posedge clk) begin
 		if(!reset_n) begin
 			instruction <= 0;
@@ -138,14 +139,38 @@ module data_path (
 		end
 		else begin
 			if(MemRead) begin
-				if(IorD) begin 
+				if(!IorD) begin 
 					if(IRWrite) instruction <= data1;
 				end
 			end
 			else memData <= data1;
 		end
 	end
+*/
+	always @ (posedge clk) begin
+		if(!reset_n) begin
+			//instruction <= 0;
+			memData <= 0;
+		end
+		else begin
+			if(MemRead) begin
+				memData <= data1;
+			end
+		end
+	end
 
+	always @ (negedge clk) begin
+		if(reset_n) begin
+			if(signal[3]) begin
+				if(!signal[4]) begin 
+					if(signal[0]) begin 
+						instruction <= data1;
+					end
+				end
+			end
+			//else memData <= data1;
+		end
+	end
 
 	
 	

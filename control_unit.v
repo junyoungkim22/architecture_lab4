@@ -2,7 +2,7 @@
 `include "opcodes.v" 	   
 
 module control_unit (state, signal);
-	input [3:0] state;
+	input [4:0] state;
 	output wire [14:0] signal;
 	//signal order : 1413PCSource 2, 12ALUOp, 1110ALUSrcB 2, 9ALUSrcA, 8RegWrite, 7RegDst,
 	//               6PCWriteCond, 5PCWrite, 4IorD, 3MemRead, 2MemWrite, 1MemtoReg, 0IRWrite
@@ -102,7 +102,7 @@ module control_unit (state, signal);
 				RegDst = 1'b0;
 				
 				PCWriteCond = 1'b0;
-				PCWrite = 1'b1;
+				PCWrite = 1'b0;
 				IorD = 1'b0;
 				MemRead = 1'b1;
 				MemWrite = 1'b0;
@@ -350,7 +350,7 @@ module control_unit (state, signal);
 				IRWrite = 1'b0;
 			end
 			state_MEM4: begin
-				PCSource = 2'b0;
+				PCSource = 2'b1;	//
 				ALUOp = 1'b0;
 				ALUSrcB= 2'b0;
 				ALUSrcA = 1'b0;
@@ -358,7 +358,7 @@ module control_unit (state, signal);
 				RegDst = 1'b0; // $rt
 				
 				PCWriteCond = 1'b0;
-				PCWrite = 1'b0;
+				PCWrite = 1'b1;		//
 				IorD = 1'b0;
 				MemRead = 1'b0;
 				MemWrite = 1'b0;

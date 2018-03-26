@@ -13,7 +13,7 @@ module controller(clk, opcode, Reset_N, signal, num_inst);
 	wire Reset_N;
 	
 	//output state;
-	reg [3:0] state;
+	reg [4:0] state;
 	output wire [14:0] signal;
 
 	output reg [`WORD_SIZE-1:0] num_inst;
@@ -39,7 +39,7 @@ module controller(clk, opcode, Reset_N, signal, num_inst);
 	parameter state_MEM4 = 5'd17;
 	parameter state_WB = 5'd18;
 
-	reg [3:0] next_state;
+	reg [4:0] next_state;
 	//reg [`NUM_COMPLETED_SIGNAL-1:0] completed_signal;
 	reg [`WORD_SIZE-1:0] next_num_inst;
 	//control_unit (required_RTs, signal);
