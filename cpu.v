@@ -31,5 +31,8 @@ module cpu(Clk, Reset_N, readM1, address1, data1, readM2, writeM2, address2, dat
 	wire is_halted;
 
 	// TODO : Implement your multi-cycle CPU!
-	
+	wire [3:0] tmp = 0;
+	wire [14:0] tmpSig;
+	controller cpu_controller(Clk, tmp, Reset_N, tmpSig, num_inst);
+
 endmodule
