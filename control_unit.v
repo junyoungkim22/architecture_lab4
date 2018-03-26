@@ -174,7 +174,7 @@ module control_unit (state, signal);
 				IRWrite = 1'b0;
 			end
 			state_ID5: begin
-				PCSource = 2'b0;
+				PCSource = 2'b10;	// jump target
 				ALUOp = 1'b0;
 				ALUSrcB= 2'b0;
 				ALUSrcA = 1'b0;
@@ -182,7 +182,7 @@ module control_unit (state, signal);
 				RegDst = 1'b0;
 				
 				PCWriteCond = 1'b0;
-				PCWrite = 1'b0;
+				PCWrite = 1'b1;		// write enabled
 				IorD = 1'b0;
 				MemRead = 1'b0;
 				MemWrite = 1'b0;

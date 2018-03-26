@@ -62,7 +62,7 @@ module cpu(Clk, Reset_N, readM1, address1, data1, readM2, writeM2, address2, dat
 		signal
 	);
 
-	controller CPU_CON (clk, opcode, Reset_N, signal, num_inst);
+	controller CPU_CON (Clk, opcode, Reset_N, signal, num_inst);
 
 	initial begin
 		PC <= 0;

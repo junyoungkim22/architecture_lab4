@@ -7,7 +7,8 @@ module controller(clk, opcode, Reset_N, signal, num_inst);
 	input clk;
 	wire clk;
 	input opcode;
-	wire [5:0] instruction;
+	wire [3:0] opcode;
+	//wire [5:0] instruction;
 	input Reset_N;
 	wire Reset_N;
 	
@@ -117,7 +118,8 @@ module controller(clk, opcode, Reset_N, signal, num_inst);
 				next_state = state_EX4;
 			end
 			state_ID5: begin
-				next_state = state_EX5;
+				next_state = state_IF;
+				next_num_inst = num_inst+1;
 			end
 			state_ID6: begin
 				next_state = state_EX6;
@@ -137,7 +139,7 @@ module controller(clk, opcode, Reset_N, signal, num_inst);
 			end
 			state_EX5: begin
 				next_state = state_IF;
-				next_num_inst = num_inst+1;
+				//next_num_inst = num_inst+1;
 			end
 			state_EX6: begin
 				next_state = state_MEM4;
