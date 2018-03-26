@@ -2,7 +2,7 @@
 
 module control_unit (state, signal);
 	input [3:0] state;
-	output reg [14:0] signal;
+	output wire [14:0] signal;
 	//signal order : 1413PCSource 2, 12ALUOp, 1110ALUSrcB 2, 9ALUSrcA, 8RegWrite, 7RegDst,
 	//               6PCWriteCond, 5PCWrite, 4IorD, 3MemRead, 2MemWrite, 1MemtoReg, 0IRWrite
 
@@ -26,6 +26,21 @@ module control_unit (state, signal);
 	parameter state_MEM4 = 5'd17;
 	parameter state_WB = 5'd18;
 
+
+	reg PCSource = signal[14:13];
+	reg ALUOp = signal[12];
+	reg ALUSrcB = signal[11:10];
+	reg ALUSrcA = signal[9];
+	reg RegWrite = signal[8];
+	reg RegDst = signal[7];
+	reg PCWriteCond = signal[6];
+	reg PCWrite = signal[5];
+	reg IorD = signal[4];
+	reg MemRead = signal[3];
+	reg MemWrite = signal[2];
+	reg MemtoReg = signal[1];
+	reg IRWrite = signal[0];
+
 	initial
 	begin
 		signal = 5'd0;
@@ -34,298 +49,310 @@ module control_unit (state, signal);
 	always @ (*) begin
 		case (state)
 			state_reset: begin
-				signal = 5'd0;
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b0;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 1'b0;
+				
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_IF: begin
-				$display("hello");
-				signal = 15'b001010000101001;
-				/*
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				//$display("hello");
+				//signal = 15'b001010000101001;
+				PCSource = 2'b0;
+				ALUOp = 1'b1;
+				ALUSrcB= 2'b1;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 1'b0;
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;*/
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b1;
+				IorD = 1'b0;
+				MemRead = 1'b1;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b1;
 			end
 			state_ID1: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0; //
+				ALUOp = 1'b0; 	//
+				ALUSrcB= 2'b0;	//
+				ALUSrcA = 1'b0;	//
+				RegWrite = 1'b0;	//
+				RegDst = 1'b0;	//
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;	//
+				PCWrite = 1'b0;	//
+				IorD = 1'b0;	//
+				MemRead = 1'b0;	//
+				MemWrite = 1'b0;	// 
+				MemtoReg = 1'b0;	//
+				IRWrite = 1'b0;	//
 			end
 			state_ID2: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b0;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 1'b0;
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_ID3: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b0;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 1'b0;
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_ID4: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b0;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 1'b0;
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_ID5: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b0;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 1'b0;
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_ID6: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b10;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 1'b0;
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_EX1: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0;
+				ALUOp = 1'b1;
+				ALUSrcB= 2'b0;
+				ALUSrcA = 1'b1;
+				RegWrite = 1'b0;
+				RegDst = 1'b0;
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_EX2: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b0;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 1'b0;
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_EX3: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b0;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 1'b0;
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_EX4: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b0;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 1'b0;
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_EX5: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b0;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 1'b0;
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_EX6: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0;
+				ALUOp = 1'b1;
+				ALUSrcB= 2'b10;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 1'b0;
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_MEM1: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b0;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b1;
+				RegDst = 1'b1;
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_MEM2: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b0;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 1'b0;
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_MEM3: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b0;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 1'b0;
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_MEM4: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b0;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b1;
+				RegDst = 1'b0; // $rt
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_WB: begin
-				signal[14:13] = 2'b0;
-				signal[12] = 1'b1;
-				signal[11:10] = 2'b1;
-				signal[9] = 1'b0;
-				signal[8] = 1'b0;
-				signal[7] = 1'b0;
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b0;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 1'b0;
 				
-				signal[6] = 1'b0;
-				signal[5] = 1'b1;
-				signal[4] = 1'b0;
-				signal[3] = 1'b1;
-				signal[2] = 1'b0;
-				signal[1] = 1'b0;
-				signal[0] = 1'b1;
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 		endcase
 	end
