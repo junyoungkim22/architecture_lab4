@@ -305,12 +305,12 @@ module control_unit (state, signal);
 				PCSource = 2'b0;
 				ALUOp = 1'b0;
 				ALUSrcB= 2'b0;
-				ALUSrcA = 1'b0;
+				ALUSrcA = 1'b1;
 				RegWrite = 1'b1;
 				RegDst = 1'b1;
 				
 				PCWriteCond = 1'b0;
-				PCWrite = 1'b0;
+				PCWrite = 1'b1;
 				IorD = 1'b0;
 				MemRead = 1'b0;
 				MemWrite = 1'b0;

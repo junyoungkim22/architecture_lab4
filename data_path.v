@@ -29,7 +29,7 @@ module data_path (
 	output [`WORD_SIZE-1:0] address2;
 	input [`WORD_SIZE-1:0] data1;
 	inout [`WORD_SIZE-1:0] data2;
-	output [`WORD_SIZE-1:0] output_reg;
+	output reg [`WORD_SIZE-1:0] output_reg;
 	output [3:0] opcode;
 	input [`WORD_SIZE-1:0] PC;
 	output [`WORD_SIZE-1:0] nextPC;
@@ -103,10 +103,10 @@ module data_path (
 	wire [`WORD_SIZE-1:0] calc_address = ALUOut;
 
 	//set value of output reg
-	assign output_reg = isWWD ? ALUOut : 0;
+	//assign output_reg = isWWD ? ALUOut : 0;
 
 	//assign writedata of alu
-	assign writedata = MemtoReg ? memData : ALUOut;
+	assign writeData = MemtoReg ? memData : ALUOut;
 
 
 	//jump logic
@@ -116,7 +116,7 @@ module data_path (
 	wire bcond = (instruction[15:12] == `BNE_OP) ? equal : !equal; 
 
 	wire [`WORD_SIZE-1:0] calcPC = (PCSource <= 1) ? ((PCSource) ? ALUOut + 1 : ALUOut) : jumpTarget;
-	wire [`WORD_SIZE-1:0] updatePC = (bcond & PCWriteCond) || PCWrite;
+	wire updatePC = (bcond && PCWriteCond) || PCWrite;
 
 	assign nextPC = updatePC ? calcPC : PC;
 
@@ -127,8 +127,11 @@ module data_path (
 	assign address2 = calc_address;
 	assign data2 = MemWrite ? readData2 : `WORD_SIZE'bz;
 
+	//don't write if WWD instruction
+	wire regFileWrite = isWWD ? 0 : RegWrite;
+
 	alu_control AC(instruction, alu_control_output);
-	register_file regFile (r1, r2, rd, writeData, RegWrite, readData1, readData2, clk, reset_n);
+	register_file regFile (r1, r2, rd, writeData, regFileWrite, readData1, readData2, clk, reset_n);
 	ALU alu(A, B, OP, ALUOut, equal);
 
 /*
@@ -159,11 +162,25 @@ module data_path (
 		end
 	end
 
+	/*
 	always @ (negedge clk) begin
 		if(reset_n) begin
-			if(signal[3]) begin
-				if(!signal[4]) begin 
-					if(signal[0]) begin 
+			if(MemRead) begin
+				if(!IorD) begin 
+					if(IRWrite) begin 
+						instruction <= data1;
+					end
+				end
+			end
+			//else memData <= data1;
+		end
+	end
+	*/
+	always @ (data1) begin
+		if(reset_n) begin
+			if(MemRead) begin
+				if(!IorD) begin 
+					if(IRWrite) begin 
 						instruction <= data1;
 					end
 				end
@@ -172,6 +189,10 @@ module data_path (
 		end
 	end
 
+	always @ (posedge RegWrite) begin
+		if(isWWD) output_reg = ALUOut;
+	end
+
 	
 	
-endmodule					
+endmodule				

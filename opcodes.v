@@ -18,7 +18,8 @@
 `define FUNC_NOT 6'd4
 `define FUNC_TCP 6'd5
 `define FUNC_SHL 6'd6
-`define FUNC_SHR 6'd7	 
+`define FUNC_SHR 6'd7
+`define FUNC_WWD 6'd28	 
 
 `define	WORD_SIZE	16			
 `define	NUM_REGS	4
