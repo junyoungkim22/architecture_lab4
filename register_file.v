@@ -17,7 +17,7 @@ module register_file (r1, r2, rd, writeData, regWrite, readData1, readData2, clk
 
 	initial
 	begin
-		registers[0] = 1;
+		registers[0] = 0;
 		registers[1] = 0;
 		registers[2] = 0;
 		registers[3] = 0;
@@ -27,7 +27,7 @@ module register_file (r1, r2, rd, writeData, regWrite, readData1, readData2, clk
 	begin
 		if(!reset_n)
 		begin
-			registers[0] = 1;
+			registers[0] = 0;
 			registers[1] = 0;
 			registers[2] = 0;
 			registers[3] = 0;

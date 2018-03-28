@@ -101,7 +101,7 @@ module data_path (
 	reg [`WORD_SIZE-1:0] ALUOutReg;
 
 	//output of ALU
-	wire [`WORD_SIZE-1:0] calc_address = ALUOut;
+	wire [`WORD_SIZE-1:0] calc_address = ALUOutReg;
 
 	//set value of output reg
 	//assign output_reg = isWWD ? ALUOut : 0;
@@ -156,11 +156,13 @@ module data_path (
 			//instruction <= 0;
 			memData <= 0;
 		end
+		/*
 		else begin
 			if(MemRead) begin
 				memData <= data1;
 			end
 		end
+		*/
 	end
 
 	/*

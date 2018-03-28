@@ -240,11 +240,11 @@ module control_unit (state, signal);
 				MemtoReg = 1'b0;
 				IRWrite = 1'b0;
 			end
-			state_EX3: begin
+			state_EX3: begin    // SWD
 				PCSource = 2'b0;
-				ALUOp = 1'b0;
-				ALUSrcB= 2'b0;
-				ALUSrcA = 1'b0;
+				ALUOp = 1'b1;
+				ALUSrcB= 2'b10;
+				ALUSrcA = 1'b1;
 				RegWrite = 1'b0;
 				RegDst = 1'b0;
 				
@@ -346,9 +346,9 @@ module control_unit (state, signal);
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
-				IorD = 1'b0;
+				IorD = 1'b1;
 				MemRead = 1'b0;
-				MemWrite = 1'b0;
+				MemWrite = 1'b1;
 				MemtoReg = 1'b0;
 				IRWrite = 1'b0;
 			end
@@ -373,7 +373,7 @@ module control_unit (state, signal);
 				ALUOp = 1'b0;
 				ALUSrcB= 2'b0;
 				ALUSrcA = 1'b0;
-				RegWrite = 1'b0;
+				RegWrite = 1'b1;
 				RegDst = 1'b0;
 				
 				PCWriteCond = 1'b0;
