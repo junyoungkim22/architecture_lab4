@@ -28,7 +28,7 @@ module data_path (
 	output writeM2;
 	output [`WORD_SIZE-1:0] address2;
 	input [`WORD_SIZE-1:0] data1;
-	inout [`WORD_SIZE-1:0] data2;
+	output [`WORD_SIZE-1:0] data2;
 	output reg [`WORD_SIZE-1:0] output_reg;
 	output [3:0] opcode;
 	input [`WORD_SIZE-1:0] PC;
@@ -68,6 +68,9 @@ module data_path (
 	wire MemWrite = signal[2];
 	wire MemtoReg = signal[1];
 	wire IRWrite = signal[0];
+
+	//only going to use data2 for writing, so make data2 in memory be z
+	wire readM2 = 0;
 
 	//inputs and outputs for register file
 	wire [1:0] r1 = instruction[11:10];
@@ -126,7 +129,7 @@ module data_path (
 	assign address1 = (!IorD) ? PC : calc_address;
 	assign writeM2 = MemWrite ? 1 : 0;
 	assign address2 = calc_address;
-	assign data2 = MemWrite ? readData2 : `WORD_SIZE'bz;
+	assign data2 = readData2;
 
 	//don't write if WWD instruction
 	wire regFileWrite = isWWD ? 0 : RegWrite;
