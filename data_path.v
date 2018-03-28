@@ -185,6 +185,11 @@ module data_path (
 						instruction <= data1;
 					end
 				end
+				else begin	// for data
+					if(MemRead) begin
+						memData <= data1;
+					end
+				end
 			end
 			//else memData <= data1;
 		end
