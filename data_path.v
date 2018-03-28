@@ -94,10 +94,11 @@ module data_path (
 	//inputs and outputs for regALU
 	wire [`WORD_SIZE-1:0] A = ALUSrcA ? readData1 : PC;
 	wire [`WORD_SIZE-1:0] beforeB = (ALUSrcB >= 2) ? ((ALUSrcB == 2) ? sign_extended : zero_extended) : ((ALUSrcB == 1) ? 1 : readData2);
-	wire [`WORD_SIZE-1:0] B = isWWD ? 0 : beforeB;
-	wire [3:0] OP = ALUOp ? alu_control_output : 0;
+	wire [`WORD_SIZE-1:0] B = isWWD ? (PCWrite ? 1 : 0) : beforeB;
+	wire [3:0] OP = ALUOp ? (PCWrite ? 0 : alu_control_output) : 0;
 	wire [`WORD_SIZE-1:0] ALUOut;
 	wire equal;
+	reg [`WORD_SIZE-1:0] ALUOutReg;
 
 	//output of ALU
 	wire [`WORD_SIZE-1:0] calc_address = ALUOut;
@@ -106,7 +107,7 @@ module data_path (
 	//assign output_reg = isWWD ? ALUOut : 0;
 
 	//assign writedata of alu
-	assign writeData = MemtoReg ? memData : ALUOut;
+	assign writeData = MemtoReg ? memData : ALUOutReg;
 
 
 	//jump logic
@@ -191,6 +192,10 @@ module data_path (
 
 	always @ (posedge RegWrite) begin
 		if(isWWD) output_reg = ALUOut;
+	end
+
+	always @ (negedge ALUOp) begin
+		ALUOutReg = ALUOut;
 	end
 
 	

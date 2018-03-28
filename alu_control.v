@@ -7,7 +7,7 @@ module alu_control (instruction, OP);
 	wire [3:0] opcode = instruction[15:12];
 
 	always @ (*) begin
-		if(func == 4'hf) begin            //rtype
+		if(opcode == 4'hf) begin            //rtype
 			case(func)
 				`FUNC_ADD : OP = 4'h0;
 				`FUNC_SUB : OP = 4'h1;

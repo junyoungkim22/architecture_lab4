@@ -27,6 +27,7 @@ module control_unit (state, signal);
 	parameter state_MEM4 = 5'd17;
 	parameter state_WB = 5'd18;
 
+	//reg PCALU;
 	reg [1:0] PCSource;
 	reg ALUOp;
 	reg ALUSrcA;
@@ -41,6 +42,7 @@ module control_unit (state, signal);
 	reg MemtoReg;
 	reg IRWrite;
 	
+	//assign signal[15] = PCALU;
 	assign signal[14:13] = PCSource[1:0];
 	assign signal[12] = ALUOp;
 	assign signal[11:10] = ALUSrcB[1:0];
@@ -57,6 +59,7 @@ module control_unit (state, signal);
 
 	initial
 	begin
+		//PCALU = 1'b0;
 		PCSource = 2'b0;
 		ALUOp = 1'b0;
 		ALUSrcB= 2'b0;
@@ -102,7 +105,7 @@ module control_unit (state, signal);
 				RegDst = 1'b0;
 				
 				PCWriteCond = 1'b0;
-				PCWrite = 1'b0;
+				PCWrite = 1'b1;
 				IorD = 1'b0;
 				MemRead = 1'b1;
 				MemWrite = 1'b0;
@@ -221,11 +224,11 @@ module control_unit (state, signal);
 				MemtoReg = 1'b0;
 				IRWrite = 1'b0;
 			end
-			state_EX2: begin
+			state_EX2: begin       // LW
 				PCSource = 2'b0;
-				ALUOp = 1'b0;
-				ALUSrcB= 2'b0;
-				ALUSrcA = 1'b0;
+				ALUOp = 1'b1;
+				ALUSrcB= 2'b10;
+				ALUSrcA = 1'b1;
 				RegWrite = 1'b0;
 				RegDst = 1'b0;
 				
@@ -289,7 +292,7 @@ module control_unit (state, signal);
 				PCSource = 2'b0;
 				ALUOp = 1'b1;
 				ALUSrcB= 2'b10;
-				ALUSrcA = 1'b0;
+				ALUSrcA = 1'b1;
 				RegWrite = 1'b0;
 				RegDst = 1'b0;
 				
@@ -310,14 +313,14 @@ module control_unit (state, signal);
 				RegDst = 1'b1;
 				
 				PCWriteCond = 1'b0;
-				PCWrite = 1'b1;
+				PCWrite = 1'b0;
 				IorD = 1'b0;
 				MemRead = 1'b0;
 				MemWrite = 1'b0;
 				MemtoReg = 1'b0;
 				IRWrite = 1'b0;
 			end
-			state_MEM2: begin
+			state_MEM2: begin  // LW
 				PCSource = 2'b0;
 				ALUOp = 1'b0;
 				ALUSrcB= 2'b0;
@@ -327,8 +330,8 @@ module control_unit (state, signal);
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
-				IorD = 1'b0;
-				MemRead = 1'b0;
+				IorD = 1'b1;
+				MemRead = 1'b1;
 				MemWrite = 1'b0;
 				MemtoReg = 1'b0;
 				IRWrite = 1'b0;
@@ -352,13 +355,13 @@ module control_unit (state, signal);
 			state_MEM4: begin
 				PCSource = 2'b1;	//
 				ALUOp = 1'b0;
-				ALUSrcB= 2'b0;
-				ALUSrcA = 1'b0;
+				ALUSrcB= 2'b10;
+				ALUSrcA = 1'b1;
 				RegWrite = 1'b1;
 				RegDst = 1'b0; // $rt
 				
 				PCWriteCond = 1'b0;
-				PCWrite = 1'b1;		//
+				PCWrite = 1'b0;		//
 				IorD = 1'b0;
 				MemRead = 1'b0;
 				MemWrite = 1'b0;
@@ -378,7 +381,7 @@ module control_unit (state, signal);
 				IorD = 1'b0;
 				MemRead = 1'b0;
 				MemWrite = 1'b0;
-				MemtoReg = 1'b0;
+				MemtoReg = 1'b1;
 				IRWrite = 1'b0;
 			end
 		endcase
