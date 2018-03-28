@@ -4,84 +4,84 @@ VAR1	.BSC 0x0001
 VAR2	.BSC 0xFFFF
 STACK	.BSS 32
 ENTRY:		LHI	$0, 0
-		WWD	$0	; TEST #1-1 : LHI (= 0x0000)
-		LHI	$1, 0
-		WWD	$1	; TEST #1-2 : LHI (= 0x0000)
-		LHI	$2, 0
-		WWD	$2	; TEST #1-3 : LHI (= 0x0000)
-		LHI	$3, 0
-		WWD	$3	; TEST #1-4 : LHI (= 0x0000)
+24		WWD	$0	; TEST #1-1 : LHI (= 0x0000)
+25		LHI	$1, 0
+26		WWD	$1	; TEST #1-2 : LHI (= 0x0000)
+27		LHI	$2, 0
+28		WWD	$2	; TEST #1-3 : LHI (= 0x0000)
+29		LHI	$3, 0
+2a		WWD	$3	; TEST #1-4 : LHI (= 0x0000)
 
-		ADI	$0, $1, 1
-		WWD	$0	; TEST #2-1 : ADI (= 0x0001)
-		ADI	$0, $0, 1
-		WWD	$0	; TEST #2-2 : ADI (= 0x0002)
+2b		ADI	$0, $1, 1
+2c		WWD	$0	; TEST #2-1 : ADI (= 0x0001)
+2d		ADI	$0, $0, 1
+2e		WWD	$0	; TEST #2-2 : ADI (= 0x0002)
 
-		ORI	$1, $2, 1
-		WWD	$1	; TEST #3-1 : ORI (= 0x0001)
-		ORI	$1, $1, 2
-		WWD	$1	; TEST #3-2 : ORI (= 0x0003)
-		ORI	$1, $1, 3
-		WWD	$1	; TEST #3-3 : ORI (= 0x0003)
+2f		ORI	$1, $2, 1
+30		WWD	$1	; TEST #3-1 : ORI (= 0x0001)
+31		ORI	$1, $1, 2
+32		WWD	$1	; TEST #3-2 : ORI (= 0x0003)
+33		ORI	$1, $1, 3
+34		WWD	$1	; TEST #3-3 : ORI (= 0x0003)
 
-		ADD	$3, $0, $2
-		WWD	$3	; TEST #4-1 : ADD (= 0x0002)
-		ADD	$3, $1, $2
-		WWD	$3	; TEST #4-2 : ADD (= 0x0003)
-		ADD	$3, $0, $1
-		WWD	$3	; TEST #4-3 : ADD (= 0x0005)
+35		ADD	$3, $0, $2
+36		WWD	$3	; TEST #4-1 : ADD (= 0x0002)
+37		ADD	$3, $1, $2
+38		WWD	$3	; TEST #4-2 : ADD (= 0x0003)
+39		ADD	$3, $0, $1
+3a		WWD	$3	; TEST #4-3 : ADD (= 0x0005)
 
-		SUB	$3, $0, $2
-		WWD	$3	; TEST #5-1 : SUB (= 0x0002)
-		SUB	$3, $2, $0
-		WWD	$3	; TEST #5-2 : SUB (= 0xFFFE)
-		SUB	$3, $1, $2
-		WWD	$3	; TEST #5-3 : SUB (= 0x0003)
-		SUB	$3, $2, $1
-		WWD	$3	; TEST #5-4 : SUB (= 0xFFFD)
-		SUB	$3, $0, $1
-		WWD	$3	; TEST #5-5 : SUB (= 0xFFFF)
-		SUB	$3, $1, $0
-		WWD	$3	; TEST #5-6 : SUB (= 0x0001)
+3b		SUB	$3, $0, $2
+3c		WWD	$3	; TEST #5-1 : SUB (= 0x0002)
+3d		SUB	$3, $2, $0
+3e		WWD	$3	; TEST #5-2 : SUB (= 0xFFFE)
+3f		SUB	$3, $1, $2
+40		WWD	$3	; TEST #5-3 : SUB (= 0x0003)
+41		SUB	$3, $2, $1
+42		WWD	$3	; TEST #5-4 : SUB (= 0xFFFD)
+43		SUB	$3, $0, $1
+44		WWD	$3	; TEST #5-5 : SUB (= 0xFFFF)
+45		SUB	$3, $1, $0
+46		WWD	$3	; TEST #5-6 : SUB (= 0x0001)
 
-		AND	$3, $0, $2
-		WWD	$3	; TEST #6-1 : AND (= 0x0000)
-		AND	$3, $1, $2
-		WWD	$3	; TEST #6-2 : AND (= 0x0000)
-		AND	$3, $0, $1
-		WWD	$3	; TEST #6-3 : AND (= 0x0002)
+47		AND	$3, $0, $2
+48		WWD	$3	; TEST #6-1 : AND (= 0x0000)
+49		AND	$3, $1, $2
+4a		WWD	$3	; TEST #6-2 : AND (= 0x0000)
+4b		AND	$3, $0, $1
+4c		WWD	$3	; TEST #6-3 : AND (= 0x0002)
 
-		ORR	$3, $0, $2
-		WWD	$3	; TEST #7-1 : ORR (= 0x0002)
-		ORR	$3, $1, $2
-		WWD	$3	; TEST #7-2 : ORR (= 0x0003)
-		ORR	$3, $0, $1
-		WWD	$3	; TEST #7-3 : ORR (= 0x0003)
+4d		ORR	$3, $0, $2
+4e		WWD	$3	; TEST #7-1 : ORR (= 0x0002)
+4f		ORR	$3, $1, $2
+50		WWD	$3	; TEST #7-2 : ORR (= 0x0003)
+51		ORR	$3, $0, $1
+52		WWD	$3	; TEST #7-3 : ORR (= 0x0003)
 
-		NOT	$3, $0
-		WWD	$3	; TEST #8-1 : NOT (= 0xFFFD)
-		NOT	$3, $1
-		WWD	$3	; TEST #8-2 : NOT (= 0xFFFC)
-		NOT	$3, $2
-		WWD	$3	; TEST #8-3 : NOT (= 0xFFFF)
+53		NOT	$3, $0
+54		WWD	$3	; TEST #8-1 : NOT (= 0xFFFD)
+55		NOT	$3, $1
+56		WWD	$3	; TEST #8-2 : NOT (= 0xFFFC)
+57		NOT	$3, $2
+58		WWD	$3	; TEST #8-3 : NOT (= 0xFFFF)
 
-		TCP	$3, $0
-		WWD	$3	; TEST #9-1 : TCP (= 0xFFFE)
-		TCP	$3, $1
-		WWD	$3	; TEST #9-2 : TCP (= 0xFFFD)
-		TCP	$3, $2
-		WWD	$3	; TEST #9-3 : TCP (= 0x0000)
+59		TCP	$3, $0
+5a		WWD	$3	; TEST #9-1 : TCP (= 0xFFFE)
+5b		TCP	$3, $1
+5c		WWD	$3	; TEST #9-2 : TCP (= 0xFFFD)
+5d		TCP	$3, $2
+5e		WWD	$3	; TEST #9-3 : TCP (= 0x0000)
 
-		SHL	$3, $0
-		WWD	$3	; TEST #10-1 : SHL (= 0x0004)
-		SHL	$3, $1
-		WWD	$3	; TEST #10-2 : SHL (= 0x0006)
-		SHL	$3, $2
-		WWD	$3	; TEST #10-3 : SHL (= 0x0000)
+5f		SHL	$3, $0
+60		WWD	$3	; TEST #10-1 : SHL (= 0x0004)
+6a		SHL	$3, $1
+6b		WWD	$3	; TEST #10-2 : SHL (= 0x0006)
+6c		SHL	$3, $2
+6d		WWD	$3	; TEST #10-3 : SHL (= 0x0000)
 
-		SHR	$3, $0
-		WWD	$3	; TEST #11-1 : SHR (= 0x0001)
-		SHR	$3, $1
+6e		SHR	$3, $0
+6f		WWD	$3	; TEST #11-1 : SHR (= 0x0001)
+70		SHR	$3, $1
 		WWD	$3	; TEST #11-2 : SHR (= 0x0001)
 		SHR	$3, $2
 		WWD	$3	; TEST #11-3 : SHR (= 0x0000)
