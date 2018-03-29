@@ -1,6 +1,6 @@
 //`timescale 1ns/1ns
-`define WORD_SIZE 16    // data and address word size
-
+//`define WORD_SIZE 16    // data and address word size
+`include "opcodes.v"
 
 
 module controller(clk, opcode, Reset_N, signal, num_inst);

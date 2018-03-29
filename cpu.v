@@ -62,7 +62,8 @@ module cpu(Clk, Reset_N, readM1, address1, data1, readM2, writeM2, address2, dat
 		opcode,
 		PC,
 		nextPC,
-		signal
+		signal,
+		is_halted
 	);
 
 	controller CPU_CON (Clk, opcode, Reset_N, signal, num_inst);

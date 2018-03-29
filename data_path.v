@@ -17,7 +17,8 @@ module data_path (
 	opcode,
 	PC,
 	nextPC,
-	signal
+	signal,
+	is_halted
 );
 
 	input clk;
@@ -34,40 +35,31 @@ module data_path (
 	input [`WORD_SIZE-1:0] PC;
 	output [`WORD_SIZE-1:0] nextPC;
 	input [14:0] signal;
+	output is_halted;
 
 	//registers
 	reg [`WORD_SIZE-1:0] instruction;
 	reg [`WORD_SIZE-1:0] memData;
 
+	//check if instruction is HLT
+	reg isHLT;
+	assign is_halted = isHLT;
+	//reg isWWD;
+
 	//control signals
-	/*
-	wire PCWriteCond = ;
-	wire PCWrite;
-	wire IorD;
-	wire MemRead;
-	wire MemWrite;
-	wire MemToReg;
-	wire IRWrite;
-	wire PCSource;
-	wire ALUOp;
-	wire [1:0] ALUSrcB;
-	wire ALUSrcA;
-	wire RegWrite;
-	wire RegDst;
-	*/
 	wire [1:0] PCSource = signal[14:13];
 	wire ALUOp = signal[12];
 	wire [1:0] ALUSrcB = signal[11:10];
 	wire ALUSrcA = signal[9];
-	wire RegWrite = signal[8];
+	wire RegWrite = isHLT ? 0 : signal[8];
 	wire RegDst = signal[7];
 	wire PCWriteCond = signal[6];
-	wire PCWrite = signal[5];
+	wire PCWrite = isHLT ? 0 : signal[5];
 	wire IorD = signal[4];
 	wire MemRead = signal[3];
 	wire MemWrite = signal[2];
 	wire MemtoReg = signal[1];
-	wire IRWrite = signal[0];
+	wire IRWrite = isHLT ? 0 : signal[0];
 
 	//only going to use data2 for writing, so make data2 in memory be z
 	wire readM2 = 0;
@@ -105,9 +97,6 @@ module data_path (
 
 	//output of ALU
 	wire [`WORD_SIZE-1:0] calc_address = ALUOutReg;
-
-	//set value of output reg
-	//assign output_reg = isWWD ? ALUOut : 0;
 
 	//assign writedata of alu
 	assign writeData = MemtoReg ? memData : ALUOutReg;
@@ -154,10 +143,20 @@ module data_path (
 		end
 	end
 */
+
+	initial begin
+		memData <= 0;
+		isHLT <= 0;
+	end
+
 	always @ (posedge clk) begin
 		if(!reset_n) begin
 			//instruction <= 0;
 			memData <= 0;
+			isHLT <= 0;
+			//isWWD <= 0;
+			//isHLT = 0;
+			
 		end
 		/*
 		else begin
@@ -207,6 +206,18 @@ module data_path (
 	always @ (negedge ALUOp) begin
 		ALUOutReg = ALUOut;
 	end
+
+	always @ (instruction) begin
+		if(opcode == 15) begin
+			if(instruction[5:0] == 29) isHLT = 1;
+			//else if(instruction[5:0] == 29) isHLT = 1;
+		end
+		else begin
+			isHLT = 0;
+			//isHLT = 0;
+		end
+	end
+	
 
 	
 	
