@@ -34,7 +34,7 @@ module data_path (
 	output [3:0] opcode;
 	input [`WORD_SIZE-1:0] PC;
 	output [`WORD_SIZE-1:0] nextPC;
-	input [14:0] signal;
+	input [15:0] signal;
 	output is_halted;
 
 	//registers
@@ -47,12 +47,12 @@ module data_path (
 	//reg isWWD;
 
 	//control signals
-	wire [1:0] PCSource = signal[14:13];
-	wire ALUOp = signal[12];
-	wire [1:0] ALUSrcB = signal[11:10];
-	wire ALUSrcA = signal[9];
-	wire RegWrite = isHLT ? 0 : signal[8];
-	wire RegDst = signal[7];
+	wire [1:0] PCSource = signal[15:14];
+	wire ALUOp = signal[13];
+	wire [1:0] ALUSrcB = signal[12:11];
+	wire ALUSrcA = signal[10];
+	wire RegWrite = isHLT ? 0 : signal[9];
+	wire RegDst = signal[8:7];
 	wire PCWriteCond = signal[6];
 	wire PCWrite = isHLT ? 0 : signal[5];
 	wire IorD = signal[4];

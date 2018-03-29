@@ -3,7 +3,7 @@
 
 module control_unit (state, signal);
 	input [4:0] state;
-	output wire [14:0] signal;
+	output wire [15:0] signal;
 	//signal order : 1413PCSource 2, 12ALUOp, 1110ALUSrcB 2, 9ALUSrcA, 8RegWrite, 7RegDst,
 	//               6PCWriteCond, 5PCWrite, 4IorD, 3MemRead, 2MemWrite, 1MemtoReg, 0IRWrite
 
@@ -44,12 +44,12 @@ module control_unit (state, signal);
 	reg IRWrite;
 	
 	//assign signal[15] = PCALU;
-	assign signal[14:13] = PCSource[1:0];
-	assign signal[12] = ALUOp;
-	assign signal[11:10] = ALUSrcB[1:0];
-	assign signal[9] = ALUSrcA;
-	assign signal[8] = RegWrite;
-	assign signal[7] = RegDst;
+	assign signal[15:14] = PCSource[1:0];
+	assign signal[13] = ALUOp;
+	assign signal[12:11] = ALUSrcB[1:0];
+	assign signal[10] = ALUSrcA;
+	assign signal[9] = RegWrite;
+	assign signal[8:7] = RegDst;
 	assign signal[6] = PCWriteCond;
 	assign signal[5] = PCWrite;
 	assign signal[4] = IorD;
@@ -66,7 +66,7 @@ module control_unit (state, signal);
 		ALUSrcB= 2'b0;
 		ALUSrcA = 1'b0;
 		RegWrite = 1'b0;
-		RegDst = 1'b0;
+		RegDst = 2'b00;
 		
 		PCWriteCond = 1'b0;
 		PCWrite = 1'b0;
@@ -85,7 +85,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b0;
 				ALUSrcA = 1'b0;
 				RegWrite = 1'b0;
-				RegDst = 1'b0;
+				RegDst = 2'b00;
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
@@ -103,7 +103,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b1;
 				ALUSrcA = 1'b0;
 				RegWrite = 1'b0;
-				RegDst = 1'b0;
+				RegDst = 2'b00;
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b1;
@@ -119,7 +119,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b0;	//
 				ALUSrcA = 1'b0;	//
 				RegWrite = 1'b0;	//
-				RegDst = 1'b0;	//
+				RegDst = 2'b00;	//
 				
 				PCWriteCond = 1'b0;	//
 				PCWrite = 1'b0;	//
@@ -135,7 +135,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b0;
 				ALUSrcA = 1'b0;
 				RegWrite = 1'b0;
-				RegDst = 1'b0;
+				RegDst = 2'b00;
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
@@ -151,7 +151,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b0;
 				ALUSrcA = 1'b0;
 				RegWrite = 1'b0;
-				RegDst = 1'b0;
+				RegDst = 2'b00;
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
@@ -167,7 +167,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b10;
 				ALUSrcA = 1'b0;
 				RegWrite = 1'b0;
-				RegDst = 1'b0;
+				RegDst = 2'b00;
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
@@ -183,7 +183,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b0;
 				ALUSrcA = 1'b0;
 				RegWrite = 1'b0;
-				RegDst = 1'b0;
+				RegDst = 2'b00;
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b1;		// write enabled
@@ -199,7 +199,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b10;
 				ALUSrcA = 1'b0;
 				RegWrite = 1'b0;
-				RegDst = 1'b0;
+				RegDst = 2'b00;
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
@@ -215,7 +215,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b0;
 				ALUSrcA = 1'b1;
 				RegWrite = 1'b0;
-				RegDst = 1'b0;
+				RegDst = 2'b00;
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
@@ -231,7 +231,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b10;
 				ALUSrcA = 1'b1;
 				RegWrite = 1'b0;
-				RegDst = 1'b0;
+				RegDst = 2'b00;
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
@@ -247,7 +247,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b10;
 				ALUSrcA = 1'b1;
 				RegWrite = 1'b0;
-				RegDst = 1'b0;
+				RegDst = 2'b00;
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
@@ -263,7 +263,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b0;
 				ALUSrcA = 1'b1;
 				RegWrite = 1'b0;
-				RegDst = 1'b0;
+				RegDst = 2'b00;
 				
 				PCWriteCond = 1'b1;
 				PCWrite = 1'b0;
@@ -279,7 +279,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b0;
 				ALUSrcA = 1'b0;
 				RegWrite = 1'b0;
-				RegDst = 1'b0;
+				RegDst = 2'b00;
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
@@ -295,7 +295,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b10;
 				ALUSrcA = 1'b1;
 				RegWrite = 1'b0;
-				RegDst = 1'b0;
+				RegDst = 2'b00;
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
@@ -311,7 +311,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b0;
 				ALUSrcA = 1'b1;
 				RegWrite = 1'b1;
-				RegDst = 1'b1;
+				RegDst = 2'b01;
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
@@ -327,7 +327,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b0;
 				ALUSrcA = 1'b0;
 				RegWrite = 1'b0;
-				RegDst = 1'b0;
+				RegDst = 2'b00;
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
@@ -343,7 +343,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b0;
 				ALUSrcA = 1'b0;
 				RegWrite = 1'b0;
-				RegDst = 1'b0;
+				RegDst = 2'b00;
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
@@ -359,7 +359,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b10;
 				ALUSrcA = 1'b1;
 				RegWrite = 1'b1;
-				RegDst = 1'b0; // $rt
+				RegDst = 2'b00; // $rt
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;		//
@@ -375,7 +375,7 @@ module control_unit (state, signal);
 				ALUSrcB= 2'b0;
 				ALUSrcA = 1'b0;
 				RegWrite = 1'b1;
-				RegDst = 1'b0;
+				RegDst = 2'b00;
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;

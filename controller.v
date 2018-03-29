@@ -14,7 +14,7 @@ module controller(clk, opcode, Reset_N, signal, num_inst);
 	
 	//output state;
 	reg [4:0] state;
-	output wire [14:0] signal;
+	output wire [15:0] signal;
 
 	output reg [`WORD_SIZE-1:0] num_inst;
 	// TODO : Implement your microcode gen
