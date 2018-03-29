@@ -42,16 +42,21 @@ module data_path (
 	reg [`WORD_SIZE-1:0] memData;
 
 	//check if instruction is HLT
+	/*
 	reg isHLT;
 	assign is_halted = isHLT;
-	//reg isWWD;
+	*/
+	wire isJPR = (opcode == 15) ? (instruction[5:0] == 25 ? 1 : 0) : 0;
+	wire isHLT = (opcode == 15) ? (instruction[5:0] ==29 ? 1 : 0) : 0;
+	assign is_halted = isHLT;
+	//reg isJPR;
 
 	//control signals
 	wire [1:0] PCSource = signal[15:14];
 	wire ALUOp = signal[13];
 	wire [1:0] ALUSrcB = signal[12:11];
 	wire ALUSrcA = signal[10];
-	wire RegWrite = isHLT ? 0 : signal[9];
+	wire RegWrite = isHLT ? 0 : (isJPR ? 0 : signal[9]);
 	wire [1:0] RegDst = signal[8:7];
 	wire PCWriteCond = signal[6];
 	wire PCWrite = isHLT ? 0 : signal[5];
@@ -87,9 +92,9 @@ module data_path (
 	wire [3:0] alu_control_output;
 
 	//inputs and outputs for regALU
-	wire [`WORD_SIZE-1:0] A = ALUSrcA ? readData1 : PC;
+	wire [`WORD_SIZE-1:0] A = ALUSrcA ? readData1 : (isJPR ? 2 : PC);
 	wire [`WORD_SIZE-1:0] beforeB = (ALUSrcB >= 2) ? ((ALUSrcB == 2) ? sign_extended : zero_extended) : ((ALUSrcB == 1) ? 1 : readData2);
-	wire [`WORD_SIZE-1:0] B = isWWD ? (PCWrite ? 1 : 0) : beforeB;
+	wire [`WORD_SIZE-1:0] B = isWWD ? (PCWrite ? 1 : 0) : (isJPR ? 0 : beforeB);
 	wire [3:0] OP = ALUOp ? (PCWrite ? 0 : alu_control_output) : (PCWriteCond ? 1 : 0);
 	wire [`WORD_SIZE-1:0] ALUOut;
 	reg [`WORD_SIZE-1:0] ALUOutReg;
@@ -111,7 +116,7 @@ module data_path (
 	wire [`WORD_SIZE-1:0] calcPC = (PCSource <= 1) ? ((PCSource) ? ALUOutReg : ALUOut) : jumpTarget;
 	wire updatePC = (bcond && PCWriteCond) || PCWrite;
 
-	assign nextPC = updatePC ? calcPC : PC;
+	assign nextPC = updatePC ? (isJPR ? ALUOutReg : calcPC) : PC;
 
 
 	assign readM1 = MemRead;
@@ -146,16 +151,18 @@ module data_path (
 
 	initial begin
 		memData <= 0;
-		isHLT <= 0;
+		//isHLT <= 0;
 		ALUOutReg <= 0;
+		instruction <= 0;
 	end
 
 	always @ (posedge clk) begin
 		if(!reset_n) begin
 			//instruction <= 0;
 			memData <= 0;
-			isHLT <= 0;
+			//isHLT <= 0;
 			ALUOutReg <= 0;
+			instruction <= 0;
 			//isWWD <= 0;
 			//isHLT = 0;
 			
@@ -210,16 +217,18 @@ module data_path (
 		else ALUOutReg <= ALUOut;
 	end
 
+	/*
 	always @ (instruction) begin
 		if(opcode == 15) begin
 			if(instruction[5:0] == 29) isHLT = 1;
-			//else if(instruction[5:0] == 29) isHLT = 1;
+			//else if(instruction[5:0] == 25) isJPR = 1;
 		end
 		else begin
 			isHLT = 0;
-			//isHLT = 0;
+			//isJPR = 0;
 		end
 	end
+	*/
 	
 
 	
