@@ -107,7 +107,8 @@ module data_path (
 	wire [`WORD_SIZE-1:0] jumpTarget = {PC[15:12], instruction[11:0]};
 
 	//branch logic
-	wire bcond = (opcode == `BNE_OP) ? equal : !equal; 
+	//wire bcond = (opcode == `BNE_OP) ? equal : !equal;
+	wire bcond; 
 
 	wire [`WORD_SIZE-1:0] calcPC = (PCSource <= 1) ? ((PCSource) ? ALUOutReg : ALUOut) : jumpTarget;
 	wire updatePC = (bcond && PCWriteCond) || PCWrite;
@@ -126,7 +127,7 @@ module data_path (
 
 	alu_control AC(instruction, alu_control_output);
 	register_file regFile (r1, r2, rd, writeData, regFileWrite, readData1, readData2, clk, reset_n);
-	ALU alu(A, B, OP, ALUOut, equal, bigger);
+	ALU alu(A, B, OP, ALUOut, opcode, bcond);
 
 /*
 	always @ (posedge clk) begin

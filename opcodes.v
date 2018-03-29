@@ -8,6 +8,8 @@
 `define	SWD_OP	4'd8  
 `define	BNE_OP	4'd0
 `define	BEQ_OP	4'd1
+`define BGZ_OP  4'd2
+`define BLZ_OP  4'd3
 `define	JMP_OP	4'd9
 
 // ALU instruction function codes

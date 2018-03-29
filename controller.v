@@ -39,6 +39,8 @@ module controller(clk, opcode, Reset_N, signal, num_inst);
 	parameter state_MEM4 = 5'd17;
 	parameter state_WB = 5'd18;
 
+	parameter state_ID7 = 5'd19;
+
 	reg [4:0] next_state;
 	//reg [`NUM_COMPLETED_SIGNAL-1:0] completed_signal;
 	reg [`WORD_SIZE-1:0] next_num_inst;

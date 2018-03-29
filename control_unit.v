@@ -27,6 +27,7 @@ module control_unit (state, signal);
 	parameter state_MEM4 = 5'd17;
 	parameter state_WB = 5'd18;
 
+	parameter state_ID7 = 5'd19;
 	//reg PCALU;
 	reg [1:0] PCSource;
 	reg ALUOp;
