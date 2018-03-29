@@ -52,7 +52,7 @@ module data_path (
 	wire [1:0] ALUSrcB = signal[12:11];
 	wire ALUSrcA = signal[10];
 	wire RegWrite = isHLT ? 0 : signal[9];
-	wire RegDst = signal[8:7];
+	wire [1:0] RegDst = signal[8:7];
 	wire PCWriteCond = signal[6];
 	wire PCWrite = isHLT ? 0 : signal[5];
 	wire IorD = signal[4];
@@ -68,7 +68,7 @@ module data_path (
 	wire [1:0] r1 = instruction[11:10];
 	wire [1:0] r2 = instruction[9:8];
 	wire [1:0] rd;
-	assign rd = RegDst ? instruction[7:6] :  instruction[9:8];
+	assign rd = (RegDst == 2) ? 2 : (RegDst ? instruction[7:6] :  instruction[9:8]);
 	wire [`WORD_SIZE-1:0] writeData;
 	wire [`WORD_SIZE-1:0] readData1;
 	wire [`WORD_SIZE-1:0] readData2;
@@ -92,8 +92,6 @@ module data_path (
 	wire [`WORD_SIZE-1:0] B = isWWD ? (PCWrite ? 1 : 0) : beforeB;
 	wire [3:0] OP = ALUOp ? (PCWrite ? 0 : alu_control_output) : (PCWriteCond ? 1 : 0);
 	wire [`WORD_SIZE-1:0] ALUOut;
-	wire equal;
-	wire bigger;
 	reg [`WORD_SIZE-1:0] ALUOutReg;
 
 	//output of ALU
@@ -208,7 +206,8 @@ module data_path (
 	end
 
 	always @ (negedge ALUOp) begin
-		ALUOutReg = ALUOut;
+		if(opcode == `JAL_OP) ALUOutReg <= ALUOut - 1;
+		else ALUOutReg <= ALUOut;
 	end
 
 	always @ (instruction) begin

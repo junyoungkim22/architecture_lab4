@@ -11,6 +11,7 @@
 `define BGZ_OP  4'd2
 `define BLZ_OP  4'd3
 `define	JMP_OP	4'd9
+`define	JAL_OP	4'd10
 
 // ALU instruction function codes
 `define FUNC_ADD 6'd0

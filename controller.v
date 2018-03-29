@@ -103,7 +103,7 @@ module controller(clk, opcode, Reset_N, signal, num_inst);
 						next_state = state_ID5;
 					end
 					4'b1010: begin //JAL
-						next_state = state_ID5;
+						next_state = state_ID7;
 					end
 				endcase
 			end
@@ -125,6 +125,9 @@ module controller(clk, opcode, Reset_N, signal, num_inst);
 			end
 			state_ID6: begin
 				next_state = state_EX6;
+			end
+			state_ID7: begin
+				next_state = state_IF;
 			end
 			state_EX1: begin
 				next_state = state_MEM1;

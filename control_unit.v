@@ -34,7 +34,7 @@ module control_unit (state, signal);
 	reg ALUSrcA;
 	reg [1:0] ALUSrcB;
 	reg RegWrite;
-	reg RegDst;
+	reg [1:0] RegDst;
 	reg PCWriteCond;
 	reg PCWrite;
 	reg IorD;
@@ -49,7 +49,7 @@ module control_unit (state, signal);
 	assign signal[12:11] = ALUSrcB[1:0];
 	assign signal[10] = ALUSrcA;
 	assign signal[9] = RegWrite;
-	assign signal[8:7] = RegDst;
+	assign signal[8:7] = RegDst[1:0];
 	assign signal[6] = PCWriteCond;
 	assign signal[5] = PCWrite;
 	assign signal[4] = IorD;
@@ -203,6 +203,22 @@ module control_unit (state, signal);
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
+			end
+			state_ID7: begin
+				PCSource = 2'b10;	// jump target
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b1;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b1;
+				RegDst = 2'b10;
+				
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b1;		// write enabled
 				IorD = 1'b0;
 				MemRead = 1'b0;
 				MemWrite = 1'b0;
