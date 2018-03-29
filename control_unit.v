@@ -162,8 +162,8 @@ module control_unit (state, signal);
 			end
 			state_ID4: begin
 				PCSource = 2'b0;
-				ALUOp = 1'b0;
-				ALUSrcB= 2'b0;
+				ALUOp = 1'b1;
+				ALUSrcB= 2'b10;
 				ALUSrcA = 1'b0;
 				RegWrite = 1'b0;
 				RegDst = 1'b0;
@@ -257,14 +257,14 @@ module control_unit (state, signal);
 				IRWrite = 1'b0;
 			end
 			state_EX4: begin
-				PCSource = 2'b0;
+				PCSource = 2'b1;
 				ALUOp = 1'b0;
 				ALUSrcB= 2'b0;
-				ALUSrcA = 1'b0;
+				ALUSrcA = 1'b1;
 				RegWrite = 1'b0;
 				RegDst = 1'b0;
 				
-				PCWriteCond = 1'b0;
+				PCWriteCond = 1'b1;
 				PCWrite = 1'b0;
 				IorD = 1'b0;
 				MemRead = 1'b0;

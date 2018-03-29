@@ -27,8 +27,8 @@ module alu_control (instruction, OP);
 				`LHI_OP : OP = 4'hf;
 				`LWD_OP : OP = 4'h0;
 				`SWD_OP : OP = 4'h0;
-				`BNE_OP : OP = 4'h1;
-				`BEQ_OP : OP = 4'h1;
+				`BNE_OP : OP = 4'h0;
+				`BEQ_OP : OP = 4'h0;
 				`JMP_OP : OP = 4'h0;
 			endcase
 		end

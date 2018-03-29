@@ -90,9 +90,10 @@ module data_path (
 	wire [`WORD_SIZE-1:0] A = ALUSrcA ? readData1 : PC;
 	wire [`WORD_SIZE-1:0] beforeB = (ALUSrcB >= 2) ? ((ALUSrcB == 2) ? sign_extended : zero_extended) : ((ALUSrcB == 1) ? 1 : readData2);
 	wire [`WORD_SIZE-1:0] B = isWWD ? (PCWrite ? 1 : 0) : beforeB;
-	wire [3:0] OP = ALUOp ? (PCWrite ? 0 : alu_control_output) : 0;
+	wire [3:0] OP = ALUOp ? (PCWrite ? 0 : alu_control_output) : (PCWriteCond ? 1 : 0);
 	wire [`WORD_SIZE-1:0] ALUOut;
 	wire equal;
+	wire bigger;
 	reg [`WORD_SIZE-1:0] ALUOutReg;
 
 	//output of ALU
@@ -106,9 +107,9 @@ module data_path (
 	wire [`WORD_SIZE-1:0] jumpTarget = {PC[15:12], instruction[11:0]};
 
 	//branch logic
-	wire bcond = (instruction[15:12] == `BNE_OP) ? equal : !equal; 
+	wire bcond = (opcode == `BNE_OP) ? equal : !equal; 
 
-	wire [`WORD_SIZE-1:0] calcPC = (PCSource <= 1) ? ((PCSource) ? ALUOut + 1 : ALUOut) : jumpTarget;
+	wire [`WORD_SIZE-1:0] calcPC = (PCSource <= 1) ? ((PCSource) ? ALUOutReg : ALUOut) : jumpTarget;
 	wire updatePC = (bcond && PCWriteCond) || PCWrite;
 
 	assign nextPC = updatePC ? calcPC : PC;
@@ -125,7 +126,7 @@ module data_path (
 
 	alu_control AC(instruction, alu_control_output);
 	register_file regFile (r1, r2, rd, writeData, regFileWrite, readData1, readData2, clk, reset_n);
-	ALU alu(A, B, OP, ALUOut, equal);
+	ALU alu(A, B, OP, ALUOut, equal, bigger);
 
 /*
 	always @ (posedge clk) begin
@@ -147,6 +148,7 @@ module data_path (
 	initial begin
 		memData <= 0;
 		isHLT <= 0;
+		ALUOutReg <= 0;
 	end
 
 	always @ (posedge clk) begin
@@ -154,6 +156,7 @@ module data_path (
 			//instruction <= 0;
 			memData <= 0;
 			isHLT <= 0;
+			ALUOutReg <= 0;
 			//isWWD <= 0;
 			//isHLT = 0;
 			
