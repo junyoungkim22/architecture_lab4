@@ -114,9 +114,9 @@ module data_path (
 	wire bcond; 
 
 	wire [`WORD_SIZE-1:0] calcPC = (PCSource <= 1) ? ((PCSource) ? ALUOutReg : ALUOut) : jumpTarget;
-	wire updatePC = (bcond && PCWriteCond) || PCWrite;
+	wire updatePC = (bcond && PCWriteCond) || PCWrite || (signal[9] && isJPR);
 
-	assign nextPC = updatePC ? (isJPR ? ALUOutReg : calcPC) : PC;
+	assign nextPC = updatePC ? (isJPR ? ALUOut : calcPC) : PC;
 
 
 	assign readM1 = MemRead;
