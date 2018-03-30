@@ -10,6 +10,7 @@ module controller(clk, instruction, Reset_N, signal, num_inst);
 	wire [`WORD_SIZE-1:0] instruction;
 	//wire [5:0] instruction;
 	wire [3:0] opcode = instruction[15:12];
+	wire [5:0] func = instruction[5:0];
 	input Reset_N;
 	wire Reset_N;
 	
@@ -41,6 +42,8 @@ module controller(clk, instruction, Reset_N, signal, num_inst);
 	parameter state_WB = 5'd18;
 
 	parameter state_ID7 = 5'd19;
+	parameter state_ID8 = 5'd20;
+	parameter state_EX7 = 5'd21;
 
 	reg [4:0] next_state;
 	//reg [`NUM_COMPLETED_SIGNAL-1:0] completed_signal;
@@ -71,7 +74,8 @@ module controller(clk, instruction, Reset_N, signal, num_inst);
 			state_IF: begin
 				case(opcode)
 					4'b1111: begin
-						next_state = state_ID1;
+						if(func == 26) next_state = state_ID8;
+						else next_state = state_ID1;
 					end
 					4'b0000: begin //BNE
 						next_state = state_ID4;
@@ -131,6 +135,9 @@ module controller(clk, instruction, Reset_N, signal, num_inst);
 				next_state = state_IF;
 				next_num_inst = num_inst + 1;
 			end
+			state_ID8: begin
+				next_state = state_EX7;
+			end
 			state_EX1: begin
 				next_state = state_MEM1;
 			end
@@ -150,6 +157,10 @@ module controller(clk, instruction, Reset_N, signal, num_inst);
 			end
 			state_EX6: begin
 				next_state = state_MEM4;
+			end
+			state_EX7: begin
+				next_state = state_IF;
+				next_num_inst = num_inst + 1;
 			end
 			state_MEM1: begin	//for R-type
 				next_state = state_IF;

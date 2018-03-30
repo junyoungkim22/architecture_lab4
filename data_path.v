@@ -48,6 +48,8 @@ module data_path (
 	assign is_halted = isHLT;
 	*/
 	wire isJPR = (opcode == 15) ? (instruction[5:0] == 25 ? 1 : 0) : 0;
+	wire isJRL = (opcode == 15) ? (instruction[5:0] == 26 ? 1 : 0) : 0;
+	wire isJL = isJPR || isJRL;
 	wire isHLT = (opcode == 15) ? (instruction[5:0] ==29 ? 1 : 0) : 0;
 	assign is_halted = isHLT;
 	//reg isJPR;
@@ -93,9 +95,9 @@ module data_path (
 	wire [3:0] alu_control_output;
 
 	//inputs and outputs for regALU
-	wire [`WORD_SIZE-1:0] A = ALUSrcA ? readData1 : (isJPR ? 2 : PC);
+	wire [`WORD_SIZE-1:0] A = ALUSrcA ? readData1 : PC;
 	wire [`WORD_SIZE-1:0] beforeB = (ALUSrcB >= 2) ? ((ALUSrcB == 2) ? sign_extended : zero_extended) : ((ALUSrcB == 1) ? 1 : readData2);
-	wire [`WORD_SIZE-1:0] B = isWWD ? (PCWrite ? 1 : 0) : (isJPR ? 0 : beforeB);
+	wire [`WORD_SIZE-1:0] B = isWWD ? (PCWrite ? 1 : 0) : (isJL ? 0 : beforeB);
 	wire [3:0] OP = ALUOp ? (PCWrite ? 0 : alu_control_output) : (PCWriteCond ? 1 : 0);
 	wire [`WORD_SIZE-1:0] ALUOut;
 	reg [`WORD_SIZE-1:0] ALUOutReg;
@@ -215,6 +217,7 @@ module data_path (
 
 	always @ (negedge ALUOp) begin
 		if(opcode == `JAL_OP) ALUOutReg <= ALUOut - 1;
+		else if(isJRL) ALUOutReg <= ALUOut + 1;
 		else ALUOutReg <= ALUOut;
 	end
 

@@ -18,6 +18,7 @@ module alu_control (instruction, OP);
 				`FUNC_TCP : OP = 4'hc;
 				`FUNC_AND : OP = 4'h5;
 				`FUNC_WWD : OP = 4'h0;
+				`FUNC_JRL : OP = 4'h0;
 			endcase
 		end
 		else begin

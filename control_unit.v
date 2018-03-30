@@ -28,6 +28,9 @@ module control_unit (state, signal);
 	parameter state_WB = 5'd18;
 
 	parameter state_ID7 = 5'd19;
+	parameter state_ID8 = 5'd20;
+	parameter state_EX7 = 5'd21;
+
 	//reg PCALU;
 	reg [1:0] PCSource;
 	reg ALUOp;
@@ -225,6 +228,22 @@ module control_unit (state, signal);
 				MemtoReg = 1'b0;
 				IRWrite = 1'b0;
 			end
+			state_ID8: begin
+				PCSource = 2'b00;	// don't care
+				ALUOp = 1'b1;
+				ALUSrcB= 2'b1;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 2'b10;
+				
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;		// write enabled
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
+			end
 			state_EX1: begin
 				PCSource = 2'b0;
 				ALUOp = 1'b1;
@@ -315,6 +334,22 @@ module control_unit (state, signal);
 				
 				PCWriteCond = 1'b0;
 				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
+			end
+			state_EX7: begin
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b00;   //don't care
+				ALUSrcA = 1'b1;   
+				RegWrite = 1'b1;
+				RegDst = 2'b10;
+				
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b1;
 				IorD = 1'b0;
 				MemRead = 1'b0;
 				MemWrite = 1'b0;
