@@ -14,7 +14,7 @@ module data_path (
 	address2,
 	data2,
 	output_reg,
-	opcode,
+	instruction,
 	PC,
 	nextPC,
 	signal,
@@ -31,15 +31,16 @@ module data_path (
 	input [`WORD_SIZE-1:0] data1;
 	output [`WORD_SIZE-1:0] data2;
 	output reg [`WORD_SIZE-1:0] output_reg;
-	output [3:0] opcode;
+	output reg [`WORD_SIZE-1:0] instruction;
 	input [`WORD_SIZE-1:0] PC;
 	output [`WORD_SIZE-1:0] nextPC;
 	input [15:0] signal;
 	output is_halted;
 
 	//registers
-	reg [`WORD_SIZE-1:0] instruction;
+	//reg [`WORD_SIZE-1:0] instruction;
 	reg [`WORD_SIZE-1:0] memData;
+	wire [3:0] opcode = instruction [15:12];
 
 	//check if instruction is HLT
 	/*

@@ -40,10 +40,10 @@ module cpu(Clk, Reset_N, readM1, address1, data1, readM2, writeM2, address2, dat
 	wire is_halted;
 
 	wire [`WORD_SIZE-1:0] output_reg;
-	wire [3:0] opcode;
+	wire [`WORD_SIZE-1:0] instruction;
 	reg [`WORD_SIZE-1:0] PC;
 	wire [`WORD_SIZE-1:0] nextPC;
-	wire [15:0] signal;
+	wire [`WORD_SIZE-1:0] signal;
 
 	//output port for wwd
 	assign output_port = output_reg;
@@ -59,14 +59,14 @@ module cpu(Clk, Reset_N, readM1, address1, data1, readM2, writeM2, address2, dat
 		address2, 
 		data2, 
 		output_reg, 
-		opcode,
+		instruction,
 		PC,
 		nextPC,
 		signal,
 		is_halted
 	);
 
-	controller CPU_CON (Clk, opcode, Reset_N, signal, num_inst);
+	controller CPU_CON (Clk, instruction, Reset_N, signal, num_inst);
 
 	initial begin
 		PC <= 0;

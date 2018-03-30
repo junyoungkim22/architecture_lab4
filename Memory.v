@@ -202,11 +202,11 @@ module Memory(clk, reset_n, readM1, address1, data1, readM2, writeM2, address2, 
 				memory[16'ha5] <= 16'h6000;
 				memory[16'ha6] <= 16'h4005;
 				memory[16'ha7] <= 16'ha0b2;    //jal fib
-				memory[16'ha8] <= 16'hf01c;
-				memory[16'ha9] <= 16'h90b1;
-				memory[16'haa] <= 16'h4900;
-				memory[16'hab] <= 16'hf41a;
-				memory[16'hac] <= 16'hf01c;
+				memory[16'ha8] <= 16'hf01c;    //wwd
+				memory[16'ha9] <= 16'h90b1;    //jmp prefib1
+				memory[16'haa] <= 16'h4900;    //adi $1, $2, 0
+				memory[16'hab] <= 16'hf41a;    //jrl 1
+				memory[16'hac] <= 16'hf01c;    //wwd
 				memory[16'had] <= 16'hf01d;   //end of test
 				memory[16'hae] <= 16'h4a01;   //adi
 				memory[16'haf] <= 16'hf819;   //jpr

@@ -3,12 +3,13 @@
 `include "opcodes.v"
 
 
-module controller(clk, opcode, Reset_N, signal, num_inst);
+module controller(clk, instruction, Reset_N, signal, num_inst);
 	input clk;
 	wire clk;
-	input opcode;
-	wire [3:0] opcode;
+	input instruction;
+	wire [`WORD_SIZE-1:0] instruction;
 	//wire [5:0] instruction;
+	wire [3:0] opcode = instruction[15:12];
 	input Reset_N;
 	wire Reset_N;
 	
