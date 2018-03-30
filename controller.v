@@ -128,6 +128,7 @@ module controller(clk, opcode, Reset_N, signal, num_inst);
 			end
 			state_ID7: begin
 				next_state = state_IF;
+				next_num_inst = num_inst + 1;
 			end
 			state_EX1: begin
 				next_state = state_MEM1;
