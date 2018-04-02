@@ -170,6 +170,26 @@ module data_path (
 			//isHLT = 0;
 			
 		end
+		else begin
+			if(MemRead) begin
+				if(!IorD) begin
+					if(IRWrite) begin
+						instruction <= data1;
+					end
+				end
+				else begin
+					if(MemRead) memData <= data1;
+				end
+			end
+			if(RegWrite) begin
+				if(isWWD) output_reg = ALUOut;
+			end
+			if(ALUOp) begin
+				if(opcode == `JAL_OP) ALUOutReg <= ALUOut;
+				else if(isJRL) ALUOutReg <= ALUOut + 1;
+				else ALUOutReg <= ALUOut;
+			end
+		end
 		/*
 		else begin
 			if(MemRead) begin
@@ -193,6 +213,7 @@ module data_path (
 		end
 	end
 	*/
+	/*
 	always @ (data1) begin
 		if(reset_n) begin
 			if(MemRead) begin
@@ -210,16 +231,21 @@ module data_path (
 			//else memData <= data1;
 		end
 	end
+	*/
 
+	/*
 	always @ (posedge RegWrite) begin
 		if(isWWD) output_reg = ALUOut;
 	end
+	*/
 
+	/*
 	always @ (negedge ALUOp) begin
 		if(opcode == `JAL_OP) ALUOutReg <= ALUOut - 1;
 		else if(isJRL) ALUOutReg <= ALUOut + 1;
 		else ALUOutReg <= ALUOut;
 	end
+	*/
 
 	/*
 	always @ (instruction) begin

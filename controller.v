@@ -44,6 +44,7 @@ module controller(clk, instruction, Reset_N, signal, num_inst);
 	parameter state_ID7 = 5'd19;
 	parameter state_ID8 = 5'd20;
 	parameter state_EX7 = 5'd21;
+	parameter state_IF2 = 5'd22;
 
 	reg [4:0] next_state;
 	//reg [`NUM_COMPLETED_SIGNAL-1:0] completed_signal;
@@ -72,6 +73,9 @@ module controller(clk, instruction, Reset_N, signal, num_inst);
 				next_state = state_IF;
 			end
 			state_IF: begin
+				next_state = state_IF2;
+			end
+			state_IF2: begin
 				case(opcode)
 					4'b1111: begin
 						if(func == 26) next_state = state_ID8;

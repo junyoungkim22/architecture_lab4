@@ -30,6 +30,7 @@ module control_unit (state, signal);
 	parameter state_ID7 = 5'd19;
 	parameter state_ID8 = 5'd20;
 	parameter state_EX7 = 5'd21;
+	parameter state_IF2 = 5'd22;
 
 	//reg PCALU;
 	reg [1:0] PCSource;
@@ -101,6 +102,7 @@ module control_unit (state, signal);
 			state_IF: begin
 				//$display("hello");
 				//signal = 15'b001010000101001;
+				/*
 				PCSource = 2'b0;
 				ALUOp = 1'b1;
 				ALUSrcB= 2'b1;
@@ -115,6 +117,37 @@ module control_unit (state, signal);
 				MemWrite = 1'b0;
 				MemtoReg = 1'b0;
 				IRWrite = 1'b1;
+				*/
+				PCSource = 2'b0;
+				ALUOp = 1'b0;
+				ALUSrcB= 2'b0;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 2'b00;
+				
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b0;
+				IorD = 1'b0;
+				MemRead = 1'b1;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b1;
+			end
+			state_IF2: begin
+				PCSource = 2'b0;
+				ALUOp = 1'b1;
+				ALUSrcB= 2'b1;
+				ALUSrcA = 1'b0;
+				RegWrite = 1'b0;
+				RegDst = 2'b00;
+				
+				PCWriteCond = 1'b0;
+				PCWrite = 1'b1;
+				IorD = 1'b0;
+				MemRead = 1'b0;
+				MemWrite = 1'b0;
+				MemtoReg = 1'b0;
+				IRWrite = 1'b0;
 			end
 			state_ID1: begin
 				PCSource = 2'b0; //
